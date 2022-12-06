@@ -9,7 +9,7 @@ db = client.dbsparta
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('login.html')
 
 
 @app.route('/checkid', methods=['POST'])
@@ -49,7 +49,11 @@ def join():
     db.users.insert_one(doc)
     return jsonify({'result': 'success'})
 
+# Login -----
 
+@app.route('/movie')
+def move_to_movie():
+   return render_template('index2.html')
 
 
 
