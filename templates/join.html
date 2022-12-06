@@ -157,6 +157,8 @@
                     success: function (response) {
                         alert(response['result'])
 
+                       location.href = '/index'
+
                     }
                 });
 
@@ -229,7 +231,7 @@
 
         <h6 id="chkNotice"></h6>
         <button type="button" class="btn btn-dark" onclick="join()">회원가입</button>
-        <button type="button" class="btn btn-dark" onclick="test()">취소</button>
+        <button type="button" class="btn btn-dark" onclick="window.open('/');">취소</button>
 
     </div>
 </div>

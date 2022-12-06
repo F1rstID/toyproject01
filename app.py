@@ -11,6 +11,10 @@ db = client.dbsparta
 def home():
     return render_template('login.html')
 
+@app.route('/join')
+def tojoin():
+    return render_template('join.html')
+
 
 @app.route('/checkid', methods=['POST'])
 def check_id():
@@ -49,11 +53,22 @@ def join():
     db.users.insert_one(doc)
     return jsonify({'result': 'success'})
 
+
 # Login -----
 
 @app.route('/movie')
 def move_to_movie():
-   return render_template('index2.html')
+    return render_template('index.html')
+
+
+@app.route("/movies", methods=["POST"])
+def bucket_post():
+    receive_id = request.form['id_give']
+    user_inform = db.users.find_one({'user_id': receive_id}, {'_id': False})
+    if (user_inform == None):
+        return '0'
+    else:
+        return jsonify({'user_pw': user_inform['user_pw']})
 
 
 
