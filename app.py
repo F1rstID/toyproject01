@@ -6,6 +6,9 @@ from pymongo import MongoClient
 client = MongoClient('mongodb+srv://test:sparta@cluster0.zz6rnhk.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
+import hashlib
+
+
 
 @app.route('/')
 def home():
@@ -47,15 +50,25 @@ def check_nick():
         return '1'
 
 
+# txt = "안23423423."
+#
+# h = hashlib.sha256(txt.encode('utf-8'))
+#
+# print(h.hexdigest())
+
+
+
+
 @app.route('/join', methods=['POST'])
 def join():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
     nick_receive = request.form['nick_give']
 
+    hash_pw = hashlib.sha256(pw_receive.encode('utf-8'))
     doc = {
         'user_id': id_receive,
-        'user_pw': pw_receive,
+        'user_pw': hash_pw.hexdigest(),
         'user_nick': nick_receive
     }
 
@@ -69,13 +82,17 @@ def join():
 @app.route("/movies", methods=["POST"])
 def bucket_post():
     receive_id = request.form['id_give']
-    user_inform = db.users.find_one({'user_id': receive_id}, {'_id': False})
-    if (user_inform == None):
-        return '0'
+    receive_pw = request.form['pw_give']
+    user = db.users.find_one({'user_id': receive_id}, {'_id': False})
+    if user is None:
+        return 'None'  # 실패 : 존재하지 않는 아이디.
     else:
-        return jsonify({'user_pw': user_inform['user_pw']})
 
-
+        hash_pw = hashlib.sha256(receive_pw.encode('utf-8'))
+        if hash_pw.hexdigest() == user['user_pw']:
+            return 'login success'  # 성공
+        else:
+            return 'password incorrect' # 실패 : 패스워드 다름.
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
