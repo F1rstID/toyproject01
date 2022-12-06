@@ -62,24 +62,46 @@
     }
   </style>
   <script>
-    function give_id() {
-      let pwd = $('#inputpwd').val()
-      $.ajax({
-        type: 'POST',
-        url: '/movies',
-        data: {id_give: $('#inputid').val()},
-        success: function (response) {
-          console.log(response)
-          console.log(pwd)
-          if (pwd == response['user_pw']) {
-            location.href = '/movie'
-          } else {
-            alert('아이디 혹은 비밀번호가 틀렸습니다')
-            window.location.reload()
-          }
+    {#function give_id() {#}
+    {#  let pwd = $('#inputpwd').val()#}
+    {#  $.ajax({#}
+    {#    type: 'POST',#}
+    {#    url: '/movies',#}
+    {#    data: {id_give: $('#inputid').val()},#}
+    {#    success: function (response) {#}
+    {#      console.log(response)#}
+    {#      console.log(pwd)#}
+    {#      if (pwd == response['user_pw']) {#}
+    {#        location.href = '/movie'#}
+    {#      } else {#}
+    {#        alert('아이디 혹은 비밀번호가 틀렸습니다')#}
+    {#        window.location.reload()#}
+    {#      }#}
+    {##}
+    {#    }#}
+    {#  });#}
+    function login() {
+        let id = document.getElementById('inputid').value
+        let pw = document.getElementById('inputpwd').value
 
-        }
-      });
+        $.ajax({
+                type: "POST",
+                url: "/movies",
+                data: {id_give: id,pw_give: pw},
+                success: function (response) {
+
+                    if(response === 'None'){
+                        alert('존재하지 않는 아이디 입니다.')
+                    }else if(response === 'password incorrect'){
+                        alert('올바른 패스워드가 아닙니다.')
+                    }else if(response === 'login success'){
+                        {#alert('로그인에 성공하였습니다.')#}
+                        location.href = '/movie'
+                    }
+
+                }
+            })
+
     }
 
 
@@ -97,7 +119,7 @@
     <p>ID: <input id = "inputid" type="text" /></p>
     <p>PW: <input  id = "inputpwd" type="text" /></p>
     <div class="buttons">
-      <button type="button" onclick="give_id()">로그인하기</button>
+      <button type="button" onclick="login()">로그인하기</button>
       <button type="button" onclick="window.open('/find');">아이디찾기</button>
       <button type="button" onclick="window.open('/join');">회원가입</button>
 
