@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+<!--    <script type="text/javascript" src="<%=ctxPath %>/script/RSA/rsa.js"></script>-->
+<!--    <script type="text/javascript" src="<%=ctxPath %>/script/RSA/jsbn.js"></script>-->
+<!--    <script type="text/javascript" src="<%=ctxPath %>/script/RSA/prng4.js"></script>-->
+<!--    <script type="text/javascript" src="<%=ctxPath %>/script/RSA/rng.js"></script>-->
+    <title>회원가입 페이지</title>
+    <style>
+        * {
+            font-family: 'Jua', sans-serif;
+        }
+
+        .wrap {
+            width: 500px;
+            margin: auto;
+        }
+
+        .inputID > button {
+
+            margin-top: 10px;
+
+        }
+
+        .inputID > b {
+            margin-top: 10px;
+        }
+
+        .inputNick > button {
+
+            margin-top: 10px;
+
+        }
+
+        .inputNick > chkID_text {
+            margin-top: 10px;
+        }
+
+        .join_box {
+            width: 95%;
+            max-width: 500px;
+            margin: 20px auto 0px auto;
+            padding: 20px;
+            box-shadow: 0px 0px 3px 0px gray;
+        }
+
+        .btn-dark {
+
+        }
+    </style>
+    <script>
+
+        let bool_ID
+        let bool_Nick
+
+        //공백체크 함수
+        function isDefined(value) {
+            if (value === "" || value === undefined || value === null) {
+                return false
+            }
+            return true
+        }
+
+        function checkID() {
+            let id = document.getElementById('id').value
+
+            $.ajax({
+                type: "POST",
+                url: "/checkid",
+                data: {id_give: id},
+                success: function (response) {
+
+                    //    response의 값이 '0' 일시 중복 없음 '1'일시 중복.  0과 1은 문자열. app.py에서 숫자값 반환 불가.
+                    if (response === '0') {
+                        bool_ID = true
+
+                        document.getElementById('chkID_text').innerText = '사용 가능한 아이디 입니다.'
+                        document.getElementById('chkID_text').style.color = 'blue'
+
+                    } else {
+                        bool_ID = false
+
+                        document.getElementById('chkID_text').innerText = '이미 사용중인 아이디 입니다.'
+                        document.getElementById('chkID_text').style.color = 'red'
+                    }
+                }
+            })
+        }
+
+        function checkNickname() {
+            let nick = document.getElementById('nick').value
+
+            $.ajax({
+                type: "POST",
+                url: "/checknick",
+                data: {nick_give: nick},
+                success: function (response) {
+
+                    //    response의 값이 '0' 일시 중복 없음 '1'일시 중복.  0과 1은 문자열. app.py에서 숫자값 반환 불가.
+                    if (response === '0') {
+                        bool_Nick = true
+
+                        document.getElementById('chkNick_text').innerText = '사용 가능한 닉네임 입니다.'
+                        document.getElementById('chkNick_text').style.color = 'blue'
+                    } else {
+                        bool_Nick = false
+
+                        document.getElementById('chkNick_text').innerText = '이미 사용중인 닉네임 입니다.'
+                        document.getElementById('chkNick_text').style.color = 'red'
+                    }
+                }
+            })
+
+        }
+
+        function join() {
+
+            let id = document.getElementById('id').value
+            let pw = document.getElementById('pw').value
+            let pw_check = document.getElementById('pw_check').value
+            let nick = document.getElementById('nick').value
+
+
+            let blankCheck
+            let pwCheck
+
+            if (isDefined(id) === true && isDefined(pw) === true && isDefined(pw_check) === true && isDefined(nick)) {
+                blankCheck = true
+            } else {
+                blankCheck = false
+            }
+
+            if (pw === pw_check) {
+                pwCheck = true
+            } else {
+                pwCheck = false
+            }
+
+            if (bool_ID === true && bool_Nick === true && pwCheck === true && blankCheck === true) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/join',
+                    data: {id_give: id, pw_give: pw, nick_give: nick},
+                    success: function (response) {
+                        alert(response['result'])
+
+                    }
+                });
+
+            }
+
+        }
+
+
+        function test() {
+            console.log(bool_ID, bool_Nick)
+            location.href = "/login"
+        }
+
+        //구글링해서 주워온 비밀번호 일치 확인
+        $(function () {
+
+            $('#pw').keyup(function () {
+
+                if (document.getElementById('pw').value !== document.getElementById('pw_check').value) {
+                    document.getElementById('chkNotice').innerText = '비밀번호 일치하지 않음'
+                    document.getElementById('chkNotice').style.color = 'red'
+                } else {
+                    document.getElementById('chkNotice').innerText = '비밀번호 일치함'
+                    document.getElementById('chkNotice').style.color = 'blue'
+
+                }
+
+            })
+
+
+           $('#pw_check').keyup(function () {
+
+                if (document.getElementById('pw').value !== document.getElementById('pw_check').value) {
+                    document.getElementById('chkNotice').innerText = '비밀번호 일치하지 않음'
+                    document.getElementById('chkNotice').style.color = 'red'
+                } else {
+                    document.getElementById('chkNotice').innerText = '비밀번호 일치함'
+                    document.getElementById('chkNotice').style.color = 'blue'
+
+                }
+
+            })
+
+
+        });
+    </script>
+</head>
+<body>
+<div class="wrap">
+    <div class="join_box">
+        <h1>회원 가입</h1>
+        <p class="inputID">
+            <input id="id" class="form-control" type="text" placeholder="아이디">
+            <button onclick="checkID()" type="button" class="btn btn-outline-primary">중복 확인</button>
+            <b id="chkID_text"></b>
+        </p>
+
+        <p class="inputNick">
+            <input id="nick" class="form-control" type="text" placeholder="닉네임">
+            <button onclick="checkNickname()" type="button" class="btn btn-outline-primary">중복 확인</button>
+            <b id = "chkNick_text"></b>
+        </p>
+
+        <p>
+            <input id="pw" class="form-control" type="password" placeholder="비밀번호">
+            <input id="pw_check" class="form-control" type="password" placeholder="비밀번호 확인">
+
+        </p>
+
+
+        <h6 id="chkNotice"></h6>
+        <button type="button" class="btn btn-dark" onclick="join()">회원가입</button>
+        <button type="button" class="btn btn-dark" onclick="test()">취소</button>
+
+    </div>
+</div>
+</body>
+</html>
