@@ -1,13 +1,10 @@
 from flask import Flask, render_template, request, jsonify
-
-app = Flask(__name__)
 from pymongo import MongoClient
+import hashlib
 
 client = MongoClient('mongodb+srv://test:sparta@cluster0.zz6rnhk.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
-
-import hashlib
-
+app = Flask(__name__)
 
 
 @app.route('/')
@@ -50,15 +47,6 @@ def check_nick():
         return '1'
 
 
-# txt = "안23423423."
-#
-# h = hashlib.sha256(txt.encode('utf-8'))
-#
-# print(h.hexdigest())
-
-
-
-
 @app.route('/join', methods=['POST'])
 def join():
     id_receive = request.form['id_give']
@@ -92,7 +80,8 @@ def bucket_post():
         if hash_pw.hexdigest() == user['user_pw']:
             return 'login success'  # 성공
         else:
-            return 'password incorrect' # 실패 : 패스워드 다름.
+            return 'password incorrect'  # 실패 : pw 다름.
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
