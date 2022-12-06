@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 from pymongo import MongoClient
 
-client = MongoClient('mongodb+srv://wndhdks4536:wnddhks23z@cluster0.a2clvb7.mongodb.net/?retryWrites=true&w=majority')
+client = MongoClient('mongodb+srv://test:sparta@cluster0.zz6rnhk.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
 
@@ -11,9 +11,18 @@ db = client.dbsparta
 def home():
     return render_template('login.html')
 
+
 @app.route('/join')
 def tojoin():
     return render_template('join.html')
+
+
+@app.route('/movie')
+def move_to_movie():
+    return render_template('index.html')
+
+
+# Join ------------------------------
 
 
 @app.route('/checkid', methods=['POST'])
@@ -55,10 +64,6 @@ def join():
 
 
 # Login -----
-
-@app.route('/movie')
-def move_to_movie():
-    return render_template('index.html')
 
 
 @app.route("/movies", methods=["POST"])
