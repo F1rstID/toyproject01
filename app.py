@@ -24,6 +24,10 @@ def tojoin():
 def move_to_movie():
     return render_template('index.html')
 
+@app.route('/find')
+def move_to_find_ID():
+    return render_template('find_ID.html')
+
 
 # Join ------------------------------
 
@@ -93,6 +97,19 @@ def bucket_post():
             return 'login success'  # 성공
         else:
             return 'password incorrect' # 실패 : 패스워드 다름.
+#find_ID -----
+
+
+
+@app.route("/find", methods=["POST"])
+def find_ID():
+    receive_nick = request.form['nick_give']
+    user = db.users.find_one({'user_nick': receive_nick}, {'_id': False})
+    if user is None:
+        return None  # 실패 : 존재하지 않는 닉네임.
+    else:
+        return jsonify({'user_id' : user['user_id']})
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
