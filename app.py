@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
 import hashlib
+import jwt
 
 client = MongoClient('mongodb+srv://test:sparta@cluster0.zz6rnhk.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
@@ -20,6 +21,7 @@ def tojoin():
 @app.route('/movie')
 def move_to_movie():
     return render_template('index.html')
+
 
 @app.route('/find')
 def move_to_find_ID():
@@ -58,6 +60,7 @@ def join():
     nick_receive = request.form['nick_give']
 
     hash_pw = hashlib.sha256(pw_receive.encode('utf-8'))
+
     doc = {
         'user_id': id_receive,
         'user_pw': hash_pw.hexdigest(),
@@ -72,7 +75,7 @@ def join():
 
 
 @app.route("/movies", methods=["POST"])
-def bucket_post():
+def login_post():
     receive_id = request.form['id_give']
     receive_pw = request.form['pw_give']
     user = db.users.find_one({'user_id': receive_id}, {'_id': False})
@@ -81,10 +84,14 @@ def bucket_post():
     else:
         hash_pw = hashlib.sha256(receive_pw.encode('utf-8'))
         if hash_pw.hexdigest() == user['user_pw']:
-            return 'login success'  # 성공
+            token = jwt.encode({'user_id': receive_id}, 'toy project10', algorithm='HS256')
+            print(token)
+            return jsonify({'result': 'login success', 'token': token})
         else:
-            return 'password incorrect' # 실패 : 패스워드 다름.
-#find_ID -----
+            return 'password incorrect'  # 실패 : 패스워드 다름.
+
+
+# find_ID -----
 
 
 @app.route("/find", methods=["POST"])
