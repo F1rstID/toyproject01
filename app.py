@@ -79,7 +79,6 @@ def bucket_post():
     if user is None:
         return 'None'  # 실패 : 존재하지 않는 아이디.
     else:
-
         hash_pw = hashlib.sha256(receive_pw.encode('utf-8'))
         if hash_pw.hexdigest() == user['user_pw']:
             return 'login success'  # 성공
@@ -88,15 +87,14 @@ def bucket_post():
 #find_ID -----
 
 
-
 @app.route("/find", methods=["POST"])
 def find_ID():
     receive_nick = request.form['nick_give']
     user = db.users.find_one({'user_nick': receive_nick}, {'_id': False})
     if user is None:
-        return None  # 실패 : 존재하지 않는 닉네임.
+        return 'failed'  # 실패 : 존재하지 않는 닉네임.
     else:
-        return jsonify({'user_id' : user['user_id']})
+        return user['user_id']
 
 
 if __name__ == '__main__':

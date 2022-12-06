@@ -26,7 +26,7 @@
         url: '/find',
         data: {nick_give: $('#nick').val()},
         success: function (response) {
-            if(response == None) {
+            if(response === 'failed') {
                 alert('존재하지 않는 닉네임입니다.')
             }else {
                 alert(response)
