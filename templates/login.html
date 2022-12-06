@@ -1,237 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>로그인 페이지</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+          crossorigin="anonymous"></script>
+  <style>
+    * {
+      font-family: 'Jua', sans-serif;
+    }
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
+    .ii {
+      color: black;
 
-    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+      text-align: center;
 
-<!--    <script type="text/javascript" src="<%=ctxPath %>/script/RSA/rsa.js"></script>-->
-<!--    <script type="text/javascript" src="<%=ctxPath %>/script/RSA/jsbn.js"></script>-->
-<!--    <script type="text/javascript" src="<%=ctxPath %>/script/RSA/prng4.js"></script>-->
-<!--    <script type="text/javascript" src="<%=ctxPath %>/script/RSA/rng.js"></script>-->
-    <title>회원가입 페이지</title>
-    <style>
-        * {
-            font-family: 'Jua', sans-serif;
-        }
+      margin: auto;
+    }
 
-        .wrap {
-            width: 500px;
-            margin: auto;
-        }
+    .oo {
+      text-align: center;
+    }
 
-        .inputID > button {
+    .oo>button {
+      width: 100px;
+      height: 50px;
 
-            margin-top: 10px;
+      background-color: transparent;
+      color: white;
 
-        }
+      border-radius: 50px;
+      border: 2px solid white;
 
-        .inputID > b {
-            margin-top: 10px;
-        }
+    }
 
-        .inputNick > button {
+    .oo>button:hover {
+      border: 4px solid blue;
+    }
 
-            margin-top: 10px;
+    .ii {
+      margin: auto;
+    }
 
-        }
+    .aa {
+      background-color: blue;
 
-        .inputNick > chkID_text {
-            margin-top: 10px;
-        }
+      background-image: url('https://w.namu.la/s/7eb186c9f3c2e7e202a86c6fa2291a615cc1f9538c423655cb41639784c0717fb2ee722600191187043ff731b84437cd0c13f7288e80471e30ad94ccd6062b3eff3607f6a936b0606e4aee67d4a0533874981db1f52f286c731895727c86e079242e20adeebda7a012e780a8aef7f675');
+      background-size: cover;
+      background-position: center;
 
-        .join_box {
-            width: 95%;
-            max-width: 500px;
-            margin: 20px auto 0px auto;
-            padding: 20px;
-            box-shadow: 0px 0px 3px 0px gray;
-        }
+      margin: auto;
 
-        .btn-dark {
+      border-radius: 10px;
 
-        }
-    </style>
-    <script>
-
-        let bool_ID
-        let bool_Nick
-
-        //공백체크 함수
-        function isDefined(value) {
-            if (value === "" || value === undefined || value === null) {
-                return false
-            }
-            return true
-        }
-
-        function checkID() {
-            let id = document.getElementById('id').value
-
-            $.ajax({
-                type: "POST",
-                url: "/checkid",
-                data: {id_give: id},
-                success: function (response) {
-
-                    //    response의 값이 '0' 일시 중복 없음 '1'일시 중복.  0과 1은 문자열. app.py에서 숫자값 반환 불가.
-                    if (response === '0') {
-                        bool_ID = true
-
-                        document.getElementById('chkID_text').innerText = '사용 가능한 아이디 입니다.'
-                        document.getElementById('chkID_text').style.color = 'blue'
-
-                    } else {
-                        bool_ID = false
-
-                        document.getElementById('chkID_text').innerText = '이미 사용중인 아이디 입니다.'
-                        document.getElementById('chkID_text').style.color = 'red'
-                    }
-                }
-            })
-        }
-
-        function checkNickname() {
-            let nick = document.getElementById('nick').value
-
-            $.ajax({
-                type: "POST",
-                url: "/checknick",
-                data: {nick_give: nick},
-                success: function (response) {
-
-                    //    response의 값이 '0' 일시 중복 없음 '1'일시 중복.  0과 1은 문자열. app.py에서 숫자값 반환 불가.
-                    if (response === '0') {
-                        bool_Nick = true
-
-                        document.getElementById('chkNick_text').innerText = '사용 가능한 닉네임 입니다.'
-                        document.getElementById('chkNick_text').style.color = 'blue'
-                    } else {
-                        bool_Nick = false
-
-                        document.getElementById('chkNick_text').innerText = '이미 사용중인 닉네임 입니다.'
-                        document.getElementById('chkNick_text').style.color = 'red'
-                    }
-                }
-            })
+      width: 500px;
+      height: 600px;
+    }
+  </style>
+  <script>
+    function give_id() {
+      let pwd = $('#inputpwd').val()
+      $.ajax({
+        type: 'POST',
+        url: '/movies',
+        data: {id_give: $('#inputid').val()},
+        success: function (response) {
+          console.log(response)
+          console.log(pwd)
+          if (pwd == response['user_pw']) {
+            location.href = '/movie'
+          } else {
+            alert('아이디 혹은 비밀번호가 틀렸습니다')
+            window.location.reload()
+          }
 
         }
-
-        function join() {
-
-            let id = document.getElementById('id').value
-            let pw = document.getElementById('pw').value
-            let pw_check = document.getElementById('pw_check').value
-            let nick = document.getElementById('nick').value
+      });
+    }
 
 
-            let blankCheck
-            let pwCheck
-
-            if (isDefined(id) === true && isDefined(pw) === true && isDefined(pw_check) === true && isDefined(nick)) {
-                blankCheck = true
-            } else {
-                blankCheck = false
-            }
-
-            if (pw === pw_check) {
-                pwCheck = true
-            } else {
-                pwCheck = false
-            }
-
-            if (bool_ID === true && bool_Nick === true && pwCheck === true && blankCheck === true) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/join',
-                    data: {id_give: id, pw_give: pw, nick_give: nick},
-                    success: function (response) {
-                        alert(response['result'])
-
-                    }
-                });
-
-            }
-
-        }
-
-
-        function test() {
-            console.log(bool_ID, bool_Nick)
-            location.href = "/login"
-        }
-
-        //구글링해서 주워온 비밀번호 일치 확인
-        $(function () {
-
-            $('#pw').keyup(function () {
-
-                if (document.getElementById('pw').value !== document.getElementById('pw_check').value) {
-                    document.getElementById('chkNotice').innerText = '비밀번호 일치하지 않음'
-                    document.getElementById('chkNotice').style.color = 'red'
-                } else {
-                    document.getElementById('chkNotice').innerText = '비밀번호 일치함'
-                    document.getElementById('chkNotice').style.color = 'blue'
-
-                }
-
-            })
-
-
-           $('#pw_check').keyup(function () {
-
-                if (document.getElementById('pw').value !== document.getElementById('pw_check').value) {
-                    document.getElementById('chkNotice').innerText = '비밀번호 일치하지 않음'
-                    document.getElementById('chkNotice').style.color = 'red'
-                } else {
-                    document.getElementById('chkNotice').innerText = '비밀번호 일치함'
-                    document.getElementById('chkNotice').style.color = 'blue'
-
-                }
-
-            })
-
-
-        });
-    </script>
+  </script>
 </head>
+
 <body>
-<div class="wrap">
-    <div class="join_box">
-        <h1>회원 가입</h1>
-        <p class="inputID">
-            <input id="id" class="form-control" type="text" placeholder="아이디">
-            <button onclick="checkID()" type="button" class="btn btn-outline-primary">중복 확인</button>
-            <b id="chkID_text"></b>
-        </p>
+  <div class="ii">
+    <h1>로그인 페이지</h1>
+  </div>
+  <div class="aa">
+  </div>
 
-        <p class="inputNick">
-            <input id="nick" class="form-control" type="text" placeholder="닉네임">
-            <button onclick="checkNickname()" type="button" class="btn btn-outline-primary">중복 확인</button>
-            <b id = "chkNick_text"></b>
-        </p>
-
-        <p>
-            <input id="pw" class="form-control" type="password" placeholder="비밀번호">
-            <input id="pw_check" class="form-control" type="password" placeholder="비밀번호 확인">
-
-        </p>
-
-
-        <h6 id="chkNotice"></h6>
-        <button type="button" class="btn btn-dark" onclick="join()">회원가입</button>
-        <button type="button" class="btn btn-dark" onclick="test()">취소</button>
+  <div class="oo">
+    <p>ID: <input id = "inputid" type="text" /></p>
+    <p>PW: <input  id = "inputpwd" type="text" /></p>
+    <div class="buttons">
+      <button type="button" onclick="give_id()">로그인하기</button>
+      <button type="button" onclick="window.open('/find');">아이디찾기</button>
+      <button type="button" onclick="window.open('https://www.naver.com/');">회원가입</button>
 
     </div>
-</div>
+  </div>
+  </div>
 </body>
+
 </html>
