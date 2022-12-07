@@ -1,0 +1,3 @@
+CLIENT_ID = "5c728df69b257a16a68e4ee094d9fa75"
+CLIENT_SECRET = "G6AKx35tFyVB9LyjjedK0akeYa3NVg0v"
+REDIRECT_URI = "http://localhost:5000/movie"

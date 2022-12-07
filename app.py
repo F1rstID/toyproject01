@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
 import hashlib
 import jwt
+from config import CLIENT_ID,REDIRECT_URI
+import webbrowser
 
 client = MongoClient('mongodb+srv://test:sparta@cluster0.zz6rnhk.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
@@ -26,6 +28,14 @@ def move_to_movie():
 @app.route('/find')
 def move_to_find_ID():
     return render_template('find_ID.html')
+
+@app.route('/kakao')
+def kakao_url_api():
+    kakao_oauth_url = "https://kauth.kakao.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code" \
+                      % (CLIENT_ID, REDIRECT_URI)
+    chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
+
+    return webbrowser.get(chrome_path).open(kakao_oauth_url)
 
 
 # Join ------------------------------
