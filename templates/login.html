@@ -2,130 +2,157 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>로그인 페이지</title>
-  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-          crossorigin="anonymous"></script>
-  <style>
-    * {
-      font-family: 'Jua', sans-serif;
-    }
+    <meta charset="UTF-8">
+    <title>로그인 페이지</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <style>
+        * {
+            font-family: 'Jua', sans-serif;
+        }
 
-    .ii {
-      color: black;
+        .ii {
+            color: black;
 
-      text-align: center;
+            text-align: center;
 
-      margin: auto;
-    }
+            margin: auto;
+        }
 
-    .oo {
-      text-align: center;
-    }
+        .oo {
+            text-align: center;
+        }
 
-    .oo>button {
-      width: 100px;
-      height: 50px;
+        .oo > button {
+            width: 100px;
+            height: 50px;
 
-      background-color: transparent;
-      color: white;
+            background-color: transparent;
+            color: white;
 
-      border-radius: 50px;
-      border: 2px solid white;
+            border-radius: 50px;
+            border: 2px solid white;
 
-    }
+        }
 
-    .oo>button:hover {
-      border: 4px solid blue;
-    }
+        .oo > button:hover {
+            border: 4px solid blue;
+        }
 
-    .ii {
-      margin: auto;
-    }
+        .ii {
+            margin: auto;
+        }
 
-    .aa {
-      background-color: blue;
+        .aa {
+            background-color: blue;
 
-      background-image: url('https://w.namu.la/s/7eb186c9f3c2e7e202a86c6fa2291a615cc1f9538c423655cb41639784c0717fb2ee722600191187043ff731b84437cd0c13f7288e80471e30ad94ccd6062b3eff3607f6a936b0606e4aee67d4a0533874981db1f52f286c731895727c86e079242e20adeebda7a012e780a8aef7f675');
-      background-size: cover;
-      background-position: center;
+            background-image: url('https://w.namu.la/s/7eb186c9f3c2e7e202a86c6fa2291a615cc1f9538c423655cb41639784c0717fb2ee722600191187043ff731b84437cd0c13f7288e80471e30ad94ccd6062b3eff3607f6a936b0606e4aee67d4a0533874981db1f52f286c731895727c86e079242e20adeebda7a012e780a8aef7f675');
+            background-size: cover;
+            background-position: center;
 
-      margin: auto;
+            margin: auto;
 
-      border-radius: 10px;
+            border-radius: 10px;
 
-      width: 500px;
-      height: 600px;
-    }
-  </style>
-  <script>
-    {#function give_id() {#}
-    {#  let pwd = $('#inputpwd').val()#}
-    {#  $.ajax({#}
-    {#    type: 'POST',#}
-    {#    url: '/movies',#}
-    {#    data: {id_give: $('#inputid').val()},#}
-    {#    success: function (response) {#}
-    {#      console.log(response)#}
-    {#      console.log(pwd)#}
-    {#      if (pwd == response['user_pw']) {#}
-    {#        location.href = '/movie'#}
-    {#      } else {#}
-    {#        alert('아이디 혹은 비밀번호가 틀렸습니다')#}
-    {#        window.location.reload()#}
-    {#      }#}
-    {##}
-    {#    }#}
-    {#  });#}
-    function login() {
-        let id = document.getElementById('inputid').value
-        let pw = document.getElementById('inputpwd').value
+            width: 500px;
+            height: 600px;
+        }
+    </style>
+    <script>
+        {#function give_id() {#}
+        {#  let pwd = $('#inputpwd').val()#}
+        {#  $.ajax({#}
+        {#    type: 'POST',#}
+        {#    url: '/movies',#}
+        {#    data: {id_give: $('#inputid').val()},#}
+        {#    success: function (response) {#}
+        {#      console.log(response)#}
+        {#      console.log(pwd)#}
+        {#      if (pwd == response['user_pw']) {#}
+        {#        location.href = '/movie'#}
+        {#      } else {#}
+        {#        alert('아이디 혹은 비밀번호가 틀렸습니다')#}
+        {#        window.location.reload()#}
+        {#      }#}
+        {##}
+        {#    }#}
+        {#  });#}
 
-        $.ajax({
+        function login() {
+            let id = document.getElementById('inputid').value
+            let pw = document.getElementById('inputpwd').value
+
+            $.ajax({
                 type: "POST",
                 url: "/movies",
-                data: {id_give: id,pw_give: pw},
+                data: {id_give: id, pw_give: pw},
                 success: function (response) {
-
-                    if(response === 'None'){
+                    console.log(response)
+                    if (response === 'None') {
                         alert('존재하지 않는 아이디 입니다.')
-                    }else if(response === 'password incorrect'){
+                    } else if (response === 'password incorrect') {
                         alert('올바른 패스워드가 아닙니다.')
-                    }else if(response === 'login success'){
+                    } else if (response['result'] === 'login success') {
+                        setCookie('token',response['token'],1)
+
+                        location.replace('/movie')
                         {#alert('로그인에 성공하였습니다.')#}
-                        location.href = '/movie'
+
+
                     }
 
                 }
             })
 
-    }
+        }
+
+        function setCookie(cName, cValue, cDay) {
+            let expire = new Date();
+            expire.setDate(expire.getDate() + cDay);
+            cookies = cName + '=' + escape(cValue) + '; path=/ '; // 한글 깨짐을 막기위해 escape(cValue)를 합니다.
+            if (typeof cDay != 'undefined') cookies += ';expires=' + expire.toGMTString() + ';';
+            document.cookie = cookies;
+        }
+
+        function getCookie(cName) {
+            cName = cName + '='
+            let cookieData = document.cookie;
+            let start = cookieData.indexOf(cName)
+            let cValue = ''
+            if (start != -1) {
+                start += cName.length;
+                let end = cookieData.indexOf(';', start);
+                if (end == -1) end = cookieData.length;
+                cValue = cookieData.substring(start, end);
+            }
+            return unescape(cValue);
+        }
 
 
-  </script>
+    </script>
 </head>
 
 <body>
-  <div class="ii">
+<div class="ii">
     <h1>로그인 페이지</h1>
-  </div>
-  <div class="aa">
-  </div>
+</div>
+<div class="aa">
+</div>
 
-  <div class="oo">
-    <p>ID: <input id = "inputid" type="text" /></p>
-    <p>PW: <input  id = "inputpwd" type="text" /></p>
+<div class="oo">
+    <p>ID: <input id="inputid" type="text"/></p>
+    <p>PW: <input id="inputpwd" type="text"/></p>
     <div class="buttons">
-      <button type="button" onclick="login()">로그인하기</button>
-      <button type="button" onclick="window.open('/find');">아이디찾기</button>
-      <button type="button" onclick="window.open('/join');">회원가입</button>
+        <button type="button" onclick="login()">로그인하기</button>
+        <button type="button" onclick="window.open('/find');">아이디찾기</button>
+        <button type="button" onclick="window.open('/join');">회원가입</button>
 
     </div>
-  </div>
-  </div>
+</div>
+</div>
 </body>
 
 </html>
