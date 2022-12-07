@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
 import hashlib
 import jwt
-from config import CLIENT_ID,REDIRECT_URI
+from config import CLIENT_ID, REDIRECT_URI
 import webbrowser
 
 client = MongoClient('mongodb+srv://test:sparta@cluster0.zz6rnhk.mongodb.net/?retryWrites=true&w=majority')
@@ -26,14 +26,15 @@ def move_to_movie():
 
 
 @app.route('/find')
-def move_to_find_ID():
+def move_to_find_id():
     return render_template('find_ID.html')
+
 
 @app.route('/kakao')
 def kakao_url_api():
     kakao_oauth_url = "https://kauth.kakao.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code" \
                       % (CLIENT_ID, REDIRECT_URI)
-    chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
+    chrome_path = 'C:/Program Files/Google/Chrome/Application/chrome.exe %s'
 
     return webbrowser.get(chrome_path).open(kakao_oauth_url)
 
@@ -105,7 +106,7 @@ def login_post():
 
 
 @app.route("/find", methods=["POST"])
-def find_ID():
+def find_id():
     receive_nick = request.form['nick_give']
     user = db.users.find_one({'user_nick': receive_nick}, {'_id': False})
     if user is None:

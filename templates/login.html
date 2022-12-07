@@ -68,25 +68,6 @@
         }
     </style>
     <script>
-        {#function give_id() {#}
-        {#  let pwd = $('#inputpwd').val()#}
-        {#  $.ajax({#}
-        {#    type: 'POST',#}
-        {#    url: '/movies',#}
-        {#    data: {id_give: $('#inputid').val()},#}
-        {#    success: function (response) {#}
-        {#      console.log(response)#}
-        {#      console.log(pwd)#}
-        {#      if (pwd == response['user_pw']) {#}
-        {#        location.href = '/movie'#}
-        {#      } else {#}
-        {#        alert('아이디 혹은 비밀번호가 틀렸습니다')#}
-        {#        window.location.reload()#}
-        {#      }#}
-        {##}
-        {#    }#}
-        {#  });#}
-
         function login() {
             let id = document.getElementById('inputid').value
             let pw = document.getElementById('inputpwd').value
@@ -105,8 +86,7 @@
                         setCookie('token',response['token'],1)
 
                         location.replace('/movie')
-                        {#alert('로그인에 성공하였습니다.')#}
-
+                        alert('로그인에 성공하였습니다.')
 
                     }
 
@@ -128,10 +108,10 @@
             let cookieData = document.cookie;
             let start = cookieData.indexOf(cName)
             let cValue = ''
-            if (start != -1) {
+            if (start !== -1) {
                 start += cName.length;
                 let end = cookieData.indexOf(';', start);
-                if (end == -1) end = cookieData.length;
+                if (end === -1) end = cookieData.length;
                 cValue = cookieData.substring(start, end);
             }
             return unescape(cValue);
@@ -167,7 +147,5 @@
         </p>
     </div>
 </div>
-</div>
 </body>
-
 </html>
